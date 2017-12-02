@@ -87,7 +87,7 @@ $assoc = mysqli_fetch_assoc($select_inv);
 if ($rows == 0) stderr("Error", "Invite not found.\nPlease request a invite from one of our members.");
 if ($assoc["receiver"] != 0) stderr("Error", "Invite already taken.\nPlease request a new one from your inviter.");
 $secret = mksecret();
-$wantpasshash = make_passhash($secret, md5($wantpassword));
+$passhash = password_hash($chpassword, PASSWORD_BCRYPT);
 $editsecret = (!$arr[0] ? "" : make_passhash_login_key());
 $wanthintanswer = md5($hintanswer);
 check_banned_emails($email);

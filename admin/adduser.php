@@ -50,7 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else stderr($lang['std_err'], $lang['err_username']);
     if (isset($_POST['password']) && isset($_POST['password2']) && strlen($_POST['password']) > 6 && $_POST['password'] == $_POST['password2']) {
         $insert['secret'] = mksecret();
-        $insert['passhash'] = make_passhash($insert['secret'], md5($_POST['password']));
+        //$insert['passhash'] = make_passhash($insert['secret'], md5($_POST['password']));
+        $insert['passhash'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
     } else stderr($lang['std_err'], $lang['err_password']);
     if (isset($_POST['email']) && validemail($_POST['email'])) $insert['email'] = htmlsafechars($_POST['email']);
     else stderr($lang['std_err'], $lang['err_email']);

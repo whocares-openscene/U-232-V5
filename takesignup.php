@@ -92,7 +92,8 @@ if (isset($_POST["user_timezone"]) && preg_match('#^\-?\d{1,2}(?:\.\d{1,2})?$#',
 $dst_in_use = localtime(TIME_NOW + ($time_offset * 3600) , true);
 // TIMEZONE STUFF END
 $secret = mksecret();
-$wantpasshash = make_passhash($secret, md5($wantpassword));
+//$wantpasshash = make_passhash($secret, md5($wantpassword));
+$wantpasshash = password_hash($wantpassword, PASSWORD_BCRYPT);
 $editsecret = (!$arr[0] ? "" : EMAIL_CONFIRM ? make_passhash_login_key() : "");
 $wanthintanswer = md5($hintanswer);
 $user_frees = (XBT_TRACKER == true ? 0 : TIME_NOW + 14 * 86400);

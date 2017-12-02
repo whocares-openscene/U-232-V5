@@ -80,7 +80,8 @@ if (!$row) {
     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);
     bark();
 }
-if ($row['passhash'] != make_passhash($row['secret'], md5($password))) {
+//if ($row['passhash'] != make_passhash($row['secret'], md5($password))) {
+if (!password_verify($password, $row['passhash'])) {
     $fail = (@mysqli_fetch_row(sql_query("SELECT COUNT(id) from failedlogins where ip=$ip_escaped"))) or sqlerr(__FILE__, __LINE__);
     if ($fail[0] == 0) sql_query("INSERT INTO failedlogins (ip, added, attempts) VALUES ($ip_escaped, $added, 1)") or sqlerr(__FILE__, __LINE__);
     else sql_query("UPDATE failedlogins SET attempts = attempts + 1 where ip=$ip_escaped") or sqlerr(__FILE__, __LINE__);

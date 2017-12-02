@@ -43,8 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $secret = mksecret();
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $newpassword = "";
-    for ($i = 0; $i < 10; $i++) $newpassword.= $chars[mt_rand(0, strlen($chars) - 1) ];
-    $passhash = make_passhash($secret, md5($newpassword));
+    //for ($i = 0; $i < 10; $i++) $newpassword.= $chars[mt_rand(0, strlen($chars) - 1) ];
+    //$passhash = make_passhash($secret, md5($newpassword));
+    $newpassword = make_password();
+    $passhash = password_hash($newpassword, PASSWORD_BCRYPT);
     $postkey = PostKey(array(
         $uid,
         $CURUSER['id']

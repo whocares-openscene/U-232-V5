@@ -75,7 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($md5 != md5($sec . $email . $arr["passhash"] . $sec)) die();
     $newpassword = make_password();
     $sec = mksecret();
-    $newpasshash = make_passhash($sec, md5($newpassword));
+    //$newpasshash = make_passhash($sec, md5($newpassword));
+    $newpasshash = password_hash($newpassword, PASSWORD_BCRYPT);
     sql_query("UPDATE users SET secret=" . sqlesc($sec) . ", editsecret='', passhash=" . sqlesc($newpasshash) . " WHERE id=" . sqlesc($id) . " AND editsecret=" . sqlesc($arr["editsecret"])) or sqlerr(__FILE__, __LINE__);
     $mc1->begin_transaction('MyUser_' . $id);
     $mc1->update_row(false, array(

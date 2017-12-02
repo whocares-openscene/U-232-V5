@@ -128,7 +128,8 @@ if ($step == '1') {
     if ($hash != md5($fetch['editsecret'].$fetch['id'].$fetch['hintanswer']))
         die('invalid hash');
     $secret = mksecret();
-    $newpassword = make_passhash($secret, md5($newpass));
+    //$newpassword = make_passhash($secret, md5($newpass));
+    $newpassword = password_hash($newpass, PASSWORD_BCRYPT);
     sql_query('UPDATE users SET secret = ' . sqlesc($secret) . ', editsecret = "", passhash=' . sqlesc($newpassword) . ' WHERE id = ' . sqlesc($id) . ' AND editsecret = ' . sqlesc($fetch["editsecret"]));
     $mc1->begin_transaction('MyUser_' . $id);
     $mc1->update_row(false, array(

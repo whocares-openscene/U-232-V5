@@ -170,7 +170,8 @@ elseif ($action == "security") {
         if (strlen($chpassword) > 40) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_long']);
         if ($chpassword != $passagain) stderr($lang['takeeditcp_err'], $lang['takeeditcp_pass_not_match']);
         $secret = mksecret();
-        $passhash = make_passhash($secret, md5($chpassword));
+        //$passhash = make_passhash($secret, md5($chpassword));
+        $passhash = password_hash($chpassword, PASSWORD_BCRYPT);
         $updateset[] = "secret = " . sqlesc($secret);
         $updateset[] = "passhash = " . sqlesc($passhash);
         $curuser_cache['secret'] = $secret;
